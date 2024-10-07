@@ -18,14 +18,12 @@ var _ = json.Marshal
 func decodeBencode(bencodedString string) (interface{}, error) {
 	if unicode.IsDigit(rune(bencodedString[0])) {
 		var firstColonIndex int
-
 		for i := 0; i < len(bencodedString); i++ {
 			if bencodedString[i] == ':' {
 				firstColonIndex = i
 				break
 			}
 		}
-
 		lengthStr := bencodedString[:firstColonIndex]
 
 		length, err := strconv.Atoi(lengthStr)
@@ -35,7 +33,20 @@ func decodeBencode(bencodedString string) (interface{}, error) {
 
 		return bencodedString[firstColonIndex+1 : firstColonIndex+1+length], nil
 	} else {
-		return "", fmt.Errorf("Only strings are supported at the moment")
+		// return "", fmt.Errorf("only strings are supported at the moment")
+		var firstColonIndex int
+		for i := 0; i < len(bencodedString); i++ {
+			if bencodedString[i] == 'i' {
+				firstColonIndex = i
+				break
+			}
+		}
+		str := bencodedString[firstColonIndex+1 : firstColonIndex+1+len(bencodedString)-2]
+		i, err := strconv.Atoi(str)
+		if err != nil {
+			return "", fmt.Errorf("error conversion in number")
+		}
+		return i, nil
 	}
 }
 
