@@ -4,69 +4,41 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
-	"strconv"
-	"unicode"
-	// bencode "github.com/jackpal/bencode-go" // Available if you need it!
+	"strings"
+
+	"github.com/jackpal/bencode-go"
 )
 
 // Ensures gofmt doesn't remove the "os" encoding/json import (feel free to remove this!)
 var _ = json.Marshal
 
-// Example:
-// - 5:hello -> hello
-// - 10:hello12345 -> hello12345
-func decodeBencode(bencodedString string) (interface{}, error) {
-	if unicode.IsDigit(rune(bencodedString[0])) {
-		var firstColonIndex int
-		for i := 0; i < len(bencodedString); i++ {
-			if bencodedString[i] == ':' {
-				firstColonIndex = i
-				break
-			}
-		}
-		lengthStr := bencodedString[:firstColonIndex]
-
-		length, err := strconv.Atoi(lengthStr)
-		if err != nil {
-			return "", err
-		}
-
-		return bencodedString[firstColonIndex+1 : firstColonIndex+1+length], nil
-	} else {
-		// return "", fmt.Errorf("only strings are supported at the moment")
-		var firstColonIndex int
-		for i := 0; i < len(bencodedString); i++ {
-			if bencodedString[i] == 'i' {
-				firstColonIndex = i
-				break
-			}
-		}
-		str := bencodedString[firstColonIndex+1 : firstColonIndex+1+len(bencodedString)-2]
-		i, err := strconv.Atoi(str)
-		if err != nil {
-			return "", fmt.Errorf("error conversion in number")
-		}
-		return i, nil
-	}
-}
-
 func main() {
-	// You can use print statements as follows for debugging, they'll be visible when running tests.
 
 	command := os.Args[1]
 
 	if command == "decode" {
-		// Uncomment this block to pass the first stage
 
 		bencodedValue := os.Args[2]
+		reader := strings.NewReader(bencodedValue)
 
-		decoded, err := decodeBencode(bencodedValue)
+		// Create a variable to hold the decoded data
+		var decoded interface{}
+
+		// Decode the bencoded data
+		decoded, err := bencode.Decode(reader)
+
 		if err != nil {
-			fmt.Println(err)
+			fmt.Println("Error decoding:", err)
 			return
 		}
 
-		jsonOutput, _ := json.Marshal(decoded)
+		// Convert the decoded data to JSON format
+		jsonOutput, err := json.Marshal(decoded)
+		if err != nil {
+			fmt.Println("Error converting to JSON:", err)
+			return
+		}
+
 		fmt.Println(string(jsonOutput))
 	} else {
 		fmt.Println("Unknown command: " + command)
