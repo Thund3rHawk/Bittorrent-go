@@ -6,6 +6,7 @@ import (
 	"os"
 	"strings"
 
+	infoHash "github.com/codecrafters-io/bittorrent-starter-go/utils"
 	"github.com/jackpal/bencode-go"
 )
 
@@ -45,12 +46,7 @@ func main() {
 			fmt.Println("Error fetchinf file:", error)
 			return
 		}
-
 		reader := strings.NewReader(string(data))
-
-		// Create a variable to hold the decoded data
-		// var decode interface{}
-
 		// Decode the bencoded data
 		decoded, err := bencode.Decode(reader)
 
@@ -58,13 +54,8 @@ func main() {
 			fmt.Println("Error decoding:", err)
 			return
 		}
-
-		// jsonOutput, err := json.Marshal(decoded)
-		// if err != nil {
-		// 	fmt.Println("Error converting to JSON:", err)
-		// 	return
-		// }
 		output := decoded
+
 		// Ensure the decoded data is a map
 		decodedMap, ok := output.(map[string]interface{})
 		if !ok {
@@ -87,6 +78,15 @@ func main() {
 				return
 			}
 			fmt.Printf("Length: %v\n", infoMap["length"])
+			// Bencode the "info" field
+			var bencodedInfo strings.Builder
+			err = bencode.Marshal(&bencodedInfo, infoMap)
+			if err != nil {
+				fmt.Println("Error bencoding 'info' field:", err)
+				return
+			}
+			hashedString := infoHash.Infohash(bencodedInfo.String())
+			fmt.Printf("Info Hash: %v\n", hashedString)
 
 		} else {
 			fmt.Println("Error: 'info' field not found")
