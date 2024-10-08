@@ -41,7 +41,6 @@ func main() {
 		fmt.Println(string(jsonOutput))
 	} else if command == "info" {
 		data, error := os.ReadFile(os.Args[2])
-
 		if error != nil {
 			fmt.Println("Error fetchinf file:", error)
 			return
@@ -62,7 +61,6 @@ func main() {
 			fmt.Println("Error: Decoded data is not a map")
 			return
 		}
-
 		// Print the "announce" field
 		if announce, found := decodedMap["announce"]; found {
 			fmt.Printf("Tracker URL: %v\n", announce)
@@ -78,6 +76,7 @@ func main() {
 				return
 			}
 			fmt.Printf("Length: %v\n", infoMap["length"])
+
 			// Bencode the "info" field
 			var bencodedInfo strings.Builder
 			err = bencode.Marshal(&bencodedInfo, infoMap)
@@ -87,6 +86,10 @@ func main() {
 			}
 			hashedString := infoHash.Infohash(bencodedInfo.String())
 			fmt.Printf("Info Hash: %v\n", hashedString)
+			fmt.Printf("Piece Length: %v\n", infoMap["piece length"])
+
+			// hashedPieces := infoHash.Infohash((infoMap["pieces"]))
+			fmt.Printf("Piece Hashes: %x", infoMap["pieces"])
 
 		} else {
 			fmt.Println("Error: 'info' field not found")
