@@ -13,11 +13,13 @@ var _ = json.Marshal
 func main() {
 	command := os.Args[1]
 	if command == "decode" {
-		info.CommandDecode(command)
+		info.CommandDecode()
 	} else if command == "info" {
-		info.CommandInfo(command)
+		info.CommandInfo()
 	} else if command == "peers" {
-		info.CommandPeers(command)
+		info.CommandPeers()
+	} else if command == "handshake" {
+		info.CommandHandshake()
 	} else {
 		fmt.Println("Unknown command: " + command)
 		os.Exit(1)

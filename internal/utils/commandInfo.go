@@ -8,7 +8,7 @@ import (
 	"github.com/jackpal/bencode-go"
 )
 
-func CommandInfo(command string) {
+func CommandInfo() {
 	data, error := os.ReadFile(os.Args[2])
 	if error != nil {
 		fmt.Println("Error fetchinf file:", error)

@@ -9,7 +9,7 @@ import (
 	"github.com/jackpal/bencode-go"
 )
 
-func CommandDecode(command string) {
+func CommandDecode() {
 	bencodedValue := os.Args[2]
 	reader := strings.NewReader(bencodedValue)
 
