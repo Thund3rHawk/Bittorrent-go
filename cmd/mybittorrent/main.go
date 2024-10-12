@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	info "github.com/codecrafters-io/bittorrent-starter-go/internal/utils"
+	info "github.com/codecrafters-io/bittorrent-starter-go/internal/command"
 )
 
 var _ = json.Marshal
