@@ -18,7 +18,7 @@ func CommandHandshake() {
 	pstrlen := byte(19) // The length of the string "BitTorrent protocol"
 	pstr := []byte("BitTorrent protocol")
 	reserved := make([]byte, 8) // Eight zeros
-	infoHashBytes, _ := hex.DecodeString(GetInfo().infoHash)
+	infoHashBytes, _ := hex.DecodeString(GetInfo(os.Args[2]).infoHash)
 	handshake := append([]byte{pstrlen}, pstr...)
 	handshake = append(handshake, reserved...)
 	handshake = append(handshake, infoHashBytes...)

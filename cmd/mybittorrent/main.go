@@ -17,9 +17,11 @@ func main() {
 	} else if command == "info" {
 		info.CommandInfo()
 	} else if command == "peers" {
-		info.CommandPeers()
+		info.CommandPeers(os.Args[2])
 	} else if command == "handshake" {
 		info.CommandHandshake()
+	} else if command == "download_piece" {
+		info.CommandDownloadPiece()
 	} else {
 		fmt.Println("Unknown command: " + command)
 		os.Exit(1)

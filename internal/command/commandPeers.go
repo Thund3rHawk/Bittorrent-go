@@ -13,10 +13,10 @@ import (
 	"github.com/jackpal/bencode-go"
 )
 
-func CommandPeers() []string {
-	baseUrl := GetInfo().url
+func CommandPeers(args string) []string {
+	baseUrl := GetInfo(args).url
 	var peerArray []string
-	infoHashBytes, _ := hex.DecodeString(GetInfo().infoHash)
+	infoHashBytes, _ := hex.DecodeString(GetInfo(args).infoHash)
 
 	params := url.Values{}
 	params.Add("info_hash", string(infoHashBytes))
@@ -24,7 +24,7 @@ func CommandPeers() []string {
 	params.Add("port", "6881")
 	params.Add("uploaded", "0")
 	params.Add("downloaded", "0")
-	params.Add("left", fmt.Sprint(GetInfo().length))
+	params.Add("left", fmt.Sprint(GetInfo(args).length))
 	params.Add("compact", "1")
 
 	u, _ := url.ParseRequestURI(baseUrl)

@@ -16,8 +16,8 @@ type Data struct {
 	pieceHash   string
 }
 
-func GetInfo() Data {
-	data, error := os.ReadFile(os.Args[2])
+func GetInfo(args string) Data {
+	data, error := os.ReadFile(args)
 	var url string
 	var length int64
 	var infoHash string
