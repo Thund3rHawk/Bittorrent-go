@@ -22,6 +22,8 @@ func main() {
 		info.CommandHandshake()
 	} else if command == "download_piece" {
 		info.CommandDownloadPiece()
+	} else if command == "download" {
+		info.CommandDownload()
 	} else {
 		fmt.Println("Unknown command: " + command)
 		os.Exit(1)

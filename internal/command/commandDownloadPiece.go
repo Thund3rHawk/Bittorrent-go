@@ -32,6 +32,7 @@ func CommandDownloadPiece() {
 	}
 
 	peerIp := fmt.Sprintf("%d.%d.%d.%d", peers.Peers[0], peers.Peers[1], peers.Peers[2], peers.Peers[3])
+	// peerIp := CommandPeers(os.Args[4])
 	peerPort := int(peers.Peers[4])<<8 | int(peers.Peers[5])
 	peerPortStr := fmt.Sprintf("%d", peerPort)
 
