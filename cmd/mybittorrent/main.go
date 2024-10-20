@@ -24,6 +24,8 @@ func main() {
 		info.CommandDownloadPiece()
 	} else if command == "download" {
 		info.CommandDownload()
+	} else if command == "magnet_parse" {
+		info.CommandMagnetParse()
 	} else {
 		fmt.Println("Unknown command: " + command)
 		os.Exit(1)
